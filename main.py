@@ -11,15 +11,16 @@ def client_program():
     message = input(" -> ")
 
     while message.lower().strip() != "exit":
-        # client_socket.send(message.encode())
-        # client_socket.send(message.encode())
-        # client_socket.send(message.encode())
-        # client_socket.send(message.encode())
-
         # added \n to the end for the server to recognize
         # the end of the message
         client_socket.send((message + "\n").encode())
         data = client_socket.recv(1024).decode()
+
+        # if data is an empty string, the server has closed the connection
+        if not data:
+            print("Server has closed the connection.")
+            break
+
         print(f'Received from server: {data}')
 
         message = input(" -> ")
